@@ -24,6 +24,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.facebook.AccessToken;
+import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -59,14 +60,13 @@ public class SignInActivity extends AppCompatActivity implements
         GoogleApiClient.OnConnectionFailedListener, View.OnClickListener {
 
 
-    private FirebaseAuth mAuth;
-
     private CallbackManager callbackManager;
 
     private static final String TAG = "SignInActivity";
     private static final int RC_SIGN_IN = 9001;
 
     private SignInButton mSignInButton;
+    private LoginButton myLoginFBBUtton;
 
     // Firebase instance variables
     private FirebaseAuth mFirebaseAuth;
@@ -78,18 +78,31 @@ public class SignInActivity extends AppCompatActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_sign_in);
 
 
+        // Assign fields
+        mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
+        //Assign Button FB
+        myLoginFBBUtton=(LoginButton) findViewById(R.id.login_button_facebook);
+        // Set click listeners
+        mSignInButton.setOnClickListener(this);
+        myLoginFBBUtton.setOnClickListener(this);
+        // Initialize FirebaseAuth
+        mFirebaseAuth = FirebaseAuth.getInstance();
+
+
+        /////////jonathan Maldonado Facebook
 
 
         callbackManager = CallbackManager.Factory.create();
-
-        LoginManager.getInstance().registerCallback(callbackManager,
+        myLoginFBBUtton.setReadPermissions("email","public_profile");
+        myLoginFBBUtton.registerCallback(callbackManager,
                 new FacebookCallback<LoginResult>() {
                     @Override
                     public void onSuccess(LoginResult loginResult) {
                         // App code
-                        Log.d(TAG, "onSuccess: for login facebook!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1");
+                        Log.d(TAG, "onSuccess: for login facebook!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1"+loginResult);
                         handleFacebookAccessToken(loginResult.getAccessToken());
                     }
 
@@ -104,23 +117,10 @@ public class SignInActivity extends AppCompatActivity implements
                     }
                 });
 
-        mAuth = FirebaseAuth.getInstance();
+
+        ////// Jonathan Maldonado FAcebook End ///////
 
 
-
-
-
-
-        setContentView(R.layout.activity_sign_in);
-
-        // Initialize FirebaseAuth
-        mFirebaseAuth = FirebaseAuth.getInstance();
-
-        // Assign fields
-        mSignInButton = (SignInButton) findViewById(R.id.sign_in_button);
-
-        // Set click listeners
-        mSignInButton.setOnClickListener(this);
 
         // Configure Google Sign In
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)

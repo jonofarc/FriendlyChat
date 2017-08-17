@@ -23,21 +23,14 @@
         android:visibility="visible"
         android:layout_gravity="center"/>
     <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
+        android:id="@+id/login_button_facebook"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
         android:visibility="visible"
         android:layout_marginTop="50dp"
         android:layout_gravity="center"/>
-    <com.google.android.gms.common.SignInButton
-        android:id="@+id/sign_in_button_Twitter"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:layout_marginTop="-50dp"
-        android:visibility="visible"
-        android:layout_gravity="center"/>
+
 
 
 </FrameLayout>
